@@ -1,0 +1,23 @@
+table, td, th{
+    text-align: center;
+    border-color: black;
+    border: 1%;
+}
+thead{
+    background-color:rgb(255, 56, 56);
+}
+
+table tbody tr:nth-child(2n){
+    color: aliceblue;
+    background-color:midnightblue;
+}
+
+table tbody tr:nth-child(2n-1){
+    background-color:lightseagreen;
+}
+
+.hiba{
+    border: 1%;
+    border-color: red;
+    color: red;
+}
