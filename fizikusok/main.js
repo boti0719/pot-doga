@@ -1,13 +1,18 @@
 const array=[
-    {ag: "optika", kor: "XI. század", tudosok: ["Alhazen"]},
+    {ag: "optika", kor: "XI. század", tudosok: ["Alhazen", undefined]},
     {ag: "Asztronómia", kor: "reneszánsz", tudosok: ["Kepler", "Galilei"]},
     {ag: "Kvantumfizika", kor: "XIX-XX. század", tudosok: ["Max Planck", "Albert Einstein"]},
     {ag: "Modern fizika", kor: "XX-XXI. század", tudosok: ["Richard Feynman", "Stephen Hawking"]}
 ]
-
-create()
-function create(){
-    const table = document.createElement("table");
+create(true)
+function create(elso){
+    let table;
+    if (elso){
+        table = document.createElement("table");
+        table.setAttribute("id","tab");
+    }else{
+        table = document.getElementById("tab")
+    }
     document.body.appendChild(table);
     const thead = document.createElement("thead")
     const tr1 = document.createElement("tr");
@@ -18,13 +23,12 @@ function create(){
     table.appendChild(thead);
     thead.appendChild(tr1);
     table.appendChild(tbody);
-    
     for(const person of array){
         const tr = document.createElement("tr")
         tbody.appendChild(tr);
         add(person.ag, tr, "td");
         add(person.kor, tr, "td");
-        if(person.tudosok.length === 1)
+        if(person.tudosok[1] === undefined)
             add(person.tudosok[0], tr, "td").colSpan=2;
         else{
             add(person.tudosok[0], tr, "td")
@@ -34,7 +38,6 @@ function create(){
     
 }
 /**
- * 
  * @param {String} text 
  * @param {HTMLTableElement} parent 
  * @param {"td"|"th"} type 
@@ -45,4 +48,15 @@ function add(text, parent, type){
     t.innerHTML=text
     parent.appendChild(t);
     return t
+}
+
+document.getElementById("form").onsubmit=(e)=>{
+    e.preventDefault();
+    array.push({
+        ag: document.getElementById("fizika").value,
+        kor: document.getElementById("ido").value,
+        tudosok: [document.getElementById("tudos1").value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
+    })
+    document.getElementById("tab").innerHTML="";
+    create(false);
 }
