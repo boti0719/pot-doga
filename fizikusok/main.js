@@ -28,9 +28,11 @@ function create(elso){
         tbody.appendChild(tr);
         add(person.ag, tr, "td");
         add(person.kor, tr, "td");
-        if(person.tudosok[1] === undefined)
+        if(person.tudosok[1] === undefined && person.tudosok[0] !== undefined)
             add(person.tudosok[0], tr, "td").colSpan=2;
-        else{
+        else if(person.tudosok[0] === undefined && person.tudosok[1] !== undefined)
+            add(person.tudosok[1], tr, "td").colSpan=2;
+        else if(person.tudosok[0] !== undefined && person.tudosok[1] !== undefined){
             add(person.tudosok[0], tr, "td")
             add(person.tudosok[1], tr, "td")
         }
@@ -52,11 +54,17 @@ function add(text, parent, type){
 
 document.getElementById("form").onsubmit=(e)=>{
     e.preventDefault();
-    array.push({
-        ag: document.getElementById("fizika").value,
-        kor: document.getElementById("ido").value,
-        tudosok: [document.getElementById("tudos1").value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
-    })
+    if(document.getElementById("fizika").value==="")
+        document.getElementById("fizika").setAttribute("class", "hiba")
+    if(document.getElementById("ido").value==="")
+        document.getElementById("ido").setAttribute("class", "hiba")
+    else{
+        array.push({
+            ag: document.getElementById("fizika").value,
+            kor: document.getElementById("ido").value,
+            tudosok: [document.getElementById("tudos1").value===""?undefined:document.getElementById("tudos1").value.value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
+        })
+    }
     document.getElementById("tab").innerHTML="";
     create(false);
 }
