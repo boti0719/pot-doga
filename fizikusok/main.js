@@ -30,11 +30,11 @@ function create(elso){
         add(person.kor, tr, "td");
         if(person.tudosok[1] === undefined && person.tudosok[0] !== undefined)
             add(person.tudosok[0], tr, "td").colSpan=2;
-        else if(person.tudosok[0] === undefined && person.tudosok[1] !== undefined)
+        if(person.tudosok[0] === undefined && person.tudosok[1] !== undefined)
             add(person.tudosok[1], tr, "td").colSpan=2;
-        else if(person.tudosok[0] !== undefined && person.tudosok[1] !== undefined){
-            add(person.tudosok[0], tr, "td")
-            add(person.tudosok[1], tr, "td")
+        if(person.tudosok[0] !== undefined && person.tudosok[1] !== undefined){
+            add(person.tudosok[0], tr, "td");
+            add(person.tudosok[1], tr, "td");
         }
     }
     
@@ -55,16 +55,36 @@ function add(text, parent, type){
 document.getElementById("form").onsubmit=(e)=>{
     e.preventDefault();
     if(document.getElementById("fizika").value==="")
-        document.getElementById("fizika").setAttribute("class", "hiba")
-    if(document.getElementById("ido").value==="")
-        document.getElementById("ido").setAttribute("class", "hiba")
+        document.getElementById("fizika").setAttribute("class", "hiba");
     else{
+        document.getElementById("fizika").removeAttribute("class");
+    }
+        
+    if(document.getElementById("ido").value==="")
+        document.getElementById("ido").setAttribute("class", "hiba");
+    else{
+        document.getElementById("ido").removeAttribute("class");
+    }
+
+    if(document.getElementById("tudos1").value==="" && document.getElementById("tudos2").value===""){
+        document.getElementById("b").innerHTML="Legalább egy tudóst meg kell adni";
+        document.getElementById("b2").innerHTML="Legalább egy tudóst meg kell adni";
+        document.getElementById("tudos1").setAttribute("class", "hiba");
+        document.getElementById("tudos2").setAttribute("class", "hiba");
+    }else{
+        document.getElementById("b").innerHTML="";
+        document.getElementById("b2").innerHTML="";
+        document.getElementById("tudos1").removeAttribute("class", "hiba");
+        document.getElementById("tudos2").removeAttribute("class", "hiba");
+    }
+    if((document.getElementById("tudos1").value!=="" || document.getElementById("tudos2").value!=="") && document.getElementById("ido").value!=="" && document.getElementById("fizika").value!==""){
         array.push({
             ag: document.getElementById("fizika").value,
             kor: document.getElementById("ido").value,
-            tudosok: [document.getElementById("tudos1").value===""?undefined:document.getElementById("tudos1").value.value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
+            tudosok: [document.getElementById("tudos1").value===""?undefined:document.getElementById("tudos1").value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
         })
     }
+    console.log(array)
     document.getElementById("tab").innerHTML="";
     create(false);
 }
