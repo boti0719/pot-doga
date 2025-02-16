@@ -4,7 +4,45 @@ const array=[
     {szerzo: "Petőfi Sándor", kor: "magyar romantika", szerelmek: ["Mednyánszky Berta", "Szendrey Júlia"],  masik: true},
     {szerzo: "Ady Endre", kor: "20. század", szerelmek: ["Léda", "Csinszka"],  masik: true}
 ]
-create(true)
+make();
+function make(){
+    const form=document.createElement("form");
+    form.setAttribute("id", "form");
+    form.setAttribute("action", "#s");
+    const args=[{id: "kolto_nev", szoveg: "Költő neve:", type: "text"},
+        {id: "korszak", szoveg: "Korszak:", type: "text"},
+        {id: "szerelem1", szoveg: "Szerelme:", type: "text"},
+        {id: "masodik", szoveg: "Volt másik szerelme?", type: "checkbox"},
+        {id: "szerelem2", szoveg: "Szerelme:", type: "text"}
+    ];
+    for(const arg of args){
+        const label=document.createElement("label");
+        label.setAttribute("for", arg.id);
+        label.innerHTML=arg.szoveg;
+        form.appendChild(label);
+        const input=document.createElement("input");
+        input.setAttribute("type", arg.type);
+        input.setAttribute("id", arg.id);
+        input.setAttribute("name", arg.id);
+        form.appendChild(input);
+        form.appendChild(document.createElement("br"));
+        if(arg.id==="masodik"){
+            const b=document.createElement("b");
+            b.setAttribute("style", "color: red;");
+            b.setAttribute("id", "b");
+            form.appendChild(b);
+        }
+        form.appendChild(document.createElement("br"));
+    }
+    const button = document.createElement("button");
+    button.innerHTML="Hozzáadás";
+    form.appendChild(button);
+    document.body.appendChild(form);
+}
+create(true);
+/**
+ * @param {boolean} elso 
+ */
 function create(elso){
     let table;
     if (elso){
@@ -28,8 +66,10 @@ function create(elso){
         tbody.appendChild(tr);
         add(person.szerzo, tr, "td");
         add(person.kor, tr, "td");
-        if(person.szerelmek[0] === "-" || person.szerelmek[1] === undefined || !person.masik)
+        if((person.szerelmek[0] === "-" || !person.masik) && person.szerelmek[1] === undefined )
             add(person.szerelmek[0], tr, "td").colSpan=2;
+        else if(person.szerelmek[0] === "-" && person.szerelmek[1] !== undefined)
+            add(person.szerelmek[1], tr, "td").colSpan=2;
         else if(person.szerelmek[1] !== undefined && person.masik){
             add(person.szerelmek[0], tr, "td");
             add(person.szerelmek[1], tr, "td");
@@ -62,7 +102,11 @@ document.getElementById("form").onsubmit=(e)=>{
     else{
         document.getElementById("korszak").removeAttribute("class");
     }
-    if(document.getElementById("korszak").value!=="" && document.getElementById("kolto_nev").value!==""){
+    document.getElementById("b").innerHTML="";
+    if((document.getElementById("masodik").checked && document.getElementById("szerelem1").value==="") || (document.getElementById("masodik").checked && document.getElementById("szerelem2").value==="")){
+        document.getElementById("b").innerHTML="A költőnek kötelező megadni a szerelemeit";
+    }
+    else if(document.getElementById("korszak").value!=="" && document.getElementById("kolto_nev").value!==""){
         array.push({
             szerzo: document.getElementById("kolto_nev").value,
             kor: document.getElementById("korszak").value,

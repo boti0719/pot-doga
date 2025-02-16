@@ -9,7 +9,12 @@ function make(){
     const form=document.createElement("form");
     form.setAttribute("id", "form");
     form.setAttribute("action", "#s");
-    const args=[{id: "fizika", szoveg: "Terület megnevezése"}, {id: "ido", szoveg: "Időszak:"}, {id: "tudos1", szoveg: "Első tudós:"}, {id: "tudos2", szoveg: "Második tudós:"}];
+    const args=[
+        {id: "fizika", szoveg: "Terület megnevezése"},
+        {id: "ido", szoveg: "Időszak:"},
+        {id: "tudos1", szoveg: "Első tudós:"},
+        {id: "tudos2", szoveg: "Második tudós:"}
+    ];
     for(const arg of args){
         const label=document.createElement("label");
         label.setAttribute("for", arg.id);
@@ -38,6 +43,9 @@ function make(){
     document.body.appendChild(form);
 }
 create(true)
+/**
+ * @param {boolean} elso 
+ */
 function create(elso){
     let table;
     if (elso){
