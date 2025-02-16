@@ -4,6 +4,39 @@ const array=[
     {ag: "Kvantumfizika", kor: "XIX-XX. század", tudosok: ["Max Planck", "Albert Einstein"]},
     {ag: "Modern fizika", kor: "XX-XXI. század", tudosok: ["Richard Feynman", "Stephen Hawking"]}
 ]
+make();
+function make(){
+    const form=document.createElement("form");
+    form.setAttribute("id", "form");
+    form.setAttribute("action", "#s");
+    const args=[{id: "fizika", szoveg: "Terület megnevezése"}, {id: "ido", szoveg: "Időszak:"}, {id: "tudos1", szoveg: "Első tudós:"}, {id: "tudos2", szoveg: "Második tudós:"}];
+    for(const arg of args){
+        const label=document.createElement("label");
+        label.setAttribute("for", arg.id);
+        label.innerHTML=arg.szoveg;
+        form.appendChild(label);
+        const input=document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", arg.id);
+        input.setAttribute("name", arg.id);
+        form.appendChild(input);
+        form.appendChild(document.createElement("br"));
+        if(arg.id==="tudos1" || arg.id==="tudos2"){
+            const b=document.createElement("b");
+            b.setAttribute("style", "color: red;");
+            if(arg.id==="tudos1")
+                b.setAttribute("id", "b");
+            else
+                b.setAttribute("id", "b2");
+            form.appendChild(b);
+        }
+        form.appendChild(document.createElement("br"));
+    }
+    const button = document.createElement("button");
+    button.innerHTML="Hozzáadás";
+    form.appendChild(button);
+    document.body.appendChild(form);
+}
 create(true)
 function create(elso){
     let table;
@@ -84,7 +117,7 @@ document.getElementById("form").onsubmit=(e)=>{
             tudosok: [document.getElementById("tudos1").value===""?undefined:document.getElementById("tudos1").value, document.getElementById("tudos2").value===""?undefined:document.getElementById("tudos2").value]
         })
     }
-    console.log(array)
+    //console.log(array)
     document.getElementById("tab").innerHTML="";
     create(false);
 }
