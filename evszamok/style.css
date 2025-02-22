@@ -1,0 +1,12 @@
+table thead, .gray {
+    background-color:gray;
+}
+
+table{
+    border: 1%;
+}
+
+.hiba{
+    border-color: red;
+    color: red;
+}
